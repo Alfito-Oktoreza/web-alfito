@@ -28,6 +28,8 @@ REPLACEMENTS = {
     "Rasya": "Alfito",
 
     # Sekolah & Lokasi
+    "Full-stack Developer": "IT Student & Explorer",
+    "Mobile Developer.": "Personal Space.",
     "SMK Negeri 4 Malang": "SMK Negeri 2 Depok",
     "Malang, Indonesia": "Yogyakarta, Indonesia",
     "based in Malang": "based in Yogyakarta",
