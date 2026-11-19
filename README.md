@@ -1,39 +1,91 @@
-# Deployment Guide ke Cloudflare Pages
+# 🌟 Portfolio Website - Deployment & Customization Guide
 
-Folder `dist/` sudah berisi website statis lengkap yang **100% identik** dengan https://www.rasya-zildan.my.id/.
-Semua aset (animasi React/Next.js, video 3D background `glassyObj.mp4`, font *Cabinet Grotesk*, foto asli Rasya, styling CSS Tailwind, dan foto proyek) sudah tersimpan lokal di dalam folder `dist/` sehingga tidak membutuhkan server/backend sama sekali.
-
----
-
-## Opsi 1: Direct Upload via Dashboard Cloudflare (Paling Cepat & Mudah)
-
-1. Buka [Cloudflare Dashboard](https://dash.cloudflare.com/) lalu login.
-2. Di menu sidebar sebelah kiri, pilih **Workers & Pages**.
-3. Klik tombol **Create Application** -> pilih tab **Pages** -> pilih **Upload assets**.
-4. Masukkan **Project name** (misalnya `portfolio-rasya`).
-5. Drag and drop seluruh isi **folder `dist`** (atau zip folder `dist` lalu upload).
-6. Klik **Deploy site**.
-7. Website langsung aktif dalam beberapa detik di subdomain `*.pages.dev` (gratis & SSL otomatis).
+Website portofolio statis interaktif (Next.js/React + Tailwind + Smooth Scroll + Framer Motion).
+Website ini sudah dioptimalkan dan siap di-deploy langsung ke **Cloudflare Pages** tanpa server backend sama sekali.
 
 ---
 
-## Opsi 2: Deploy Menggunakan Wrangler CLI
+## 📁 Struktur Folder Proyek
 
-Jika Anda memiliki `wrangler` terinstall:
-
-```bash
-npx wrangler pages deploy dist --project-name=portfolio-rasya
+```text
+Web 2/
+├── dist/                     # 👉 Folder website siap hosting (Cloudflare Pages)
+│   ├── index.html            # Halaman Utama (Home)
+│   ├── about-me.html         # Halaman About
+│   ├── works.html            # Halaman Works / Projects
+│   ├── images/               # Semua gambar lokal (foto profil, logo, picsum portofolio)
+│   │   ├── me.png            # Foto profil potret
+│   │   ├── me-sitting.png    # Foto profil utama duduk
+│   │   ├── logo.png          # Logo website
+│   │   └── picsum/           # 12 gambar cover proyek portofolio
+│   ├── videos/               # Video animasi 3D (glassyObj.mp4)
+│   ├── audios/               # Efek suara (calmSound.mp3, hover, transition)
+│   ├── _next/static/         # Bundle stylesheet Tailwind, font, dan script interaktivitas
+│   └── favicon.ico           # Ikon tab browser
+│
+├── customize.py              # 🛠️ Script praktis untuk mengedit data diri sekaligus
+└── README.md                 # Dokumentasi panduan ini
 ```
 
 ---
 
-## Opsi 3: Deploy via Git (GitHub / GitLab)
+## 🛠️ Cara Mengotak-Atik & Mengedit Website
 
-1. Push folder repositori ini ke GitHub / GitLab.
-2. Di Cloudflare Pages, pilih **Connect to Git**.
-3. Pilih repository Anda.
-4. Pada build settings:
+Karena website ini dibangun dari komponen Next.js/React interaktif, teks terdapat pada file HTML dan file script interaktivitas.
+
+Untuk mempermudah Anda tanpa perlu mencari satu per satu secara manual:
+
+### Cara 1: Menggunakan Script `customize.py` (Paling Cepat & Praktis)
+1. Buka file [customize.py](file:///home/alfito/Documents/Web%202/customize.py).
+2. Ubah teks yang diinginkan di bagian `REPLACEMENTS`:
+   ```python
+   REPLACEMENTS = {
+       "Hi! i'm Alfito": "Teks Baru Anda",
+       "Depok, Indonesia": "Kota Anda",
+       "SMK Negeri 2 Depok": "Sekolah/Kampus Anda",
+       "https://github.com/flyychmoreeee": "https://github.com/username-anda",
+       # dst...
+   }
+   ```
+3. Buka terminal di folder ini dan jalankan:
+   ```bash
+   python3 customize.py
+   ```
+   *Script akan otomatis mengupdate semua halaman (`index.html`, `about-me`, `works`) dan file script-nya sekaligus!*
+
+### Cara 2: Mengganti Foto Sendiri
+- **Foto Profil Utama**: Ganti file [dist/images/me-sitting.png](file:///home/alfito/Documents/Web%202/dist/images/me-sitting.png) dengan foto Anda (format PNG transparan disarankan).
+- **Foto Profil Sekunder**: Ganti [dist/images/me.png](file:///home/alfito/Documents/Web%202/dist/images/me.png).
+- **Logo**: Ganti [dist/images/logo.png](file:///home/alfito/Documents/Web%202/dist/images/logo.png).
+- **Gambar Proyek**: Ganti gambar di folder [dist/images/picsum/](file:///home/alfito/Documents/Web%202/dist/images/picsum/) (`1.jpg` s/d `12.jpg`).
+
+---
+
+## 💻 Cara Menjalankan di Lokal (Preview)
+
+Jalankan perintah ini di terminal:
+```bash
+python3 -m http.server 8080 --directory dist
+```
+Buka browser di **http://localhost:8080**.
+> **Tips:** Gunakan `Ctrl + Shift + R` (Hard Reload) di browser setiap kali melakukan perubahan agar browser tidak menggunakan cache lama.
+
+---
+
+## 🚀 Cara Hosting ke Cloudflare Pages
+
+### Opsi A: Drag & Drop via Dashboard (Paling Mudah)
+1. Buka [Cloudflare Dashboard](https://dash.cloudflare.com/) lalu login.
+2. Di menu kiri, pilih **Workers & Pages** -> **Create Application** -> tab **Pages** -> **Upload assets**.
+3. Beri nama proyek (misal `portfolio-alfito`).
+4. Tarik / drag & drop seluruh isi **folder `dist`**.
+5. Klik **Deploy site**.
+
+### Opsi B: Menggunakan Git (GitHub / GitLab)
+1. Push folder repositori ini ke GitHub.
+2. Di Cloudflare Pages, pilih **Connect to Git** dan pilih repositori Anda.
+3. Di Build Settings:
    - **Framework preset**: `None`
    - **Build command**: *(kosongkan)*
    - **Build output directory**: `dist`
-5. Klik **Save and Deploy**. Setiap kali Anda melakukan git push, Cloudflare akan auto-deploy!
+4. Klik **Save and Deploy**. Setiap kali Anda push, Cloudflare akan otomatis mengupdate website Anda!
